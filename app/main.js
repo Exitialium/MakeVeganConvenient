@@ -23,6 +23,7 @@
           if (status === 'OK') {
             map.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
+              icon: '../img/vegan.png',
               map: map,
               position: results[0].geometry.location
             });
