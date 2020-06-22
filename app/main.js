@@ -18,7 +18,7 @@
     let response = await fetch('../restaurant.json');
     let res = await response.json();
     for( let prop in res.中山區){
-        console.log(prop);
+        console.log(res.中山區[prop]['素種類']);
         geocoder.geocode({'address': prop}, function(results, status) {
           if (status === 'OK') {
             map.setCenter(results[0].geometry.location);
@@ -27,6 +27,18 @@
               map: map,
               position: results[0].geometry.location
             });
+            marker.addListener('click', function() {
+                var contentString = '<div id="content">'+
+                    '<div id="siteNotice">'+
+                    '</div>'+'<h1 id="firstHeading" class="firstHeading">'+prop+'</h1>'+
+                    '<div id="bodyContent">'+'<p><b>素種類：</b>'+res.中山區[prop]['素種類']+'<br><b>菜色：</b>'+res.中山區[prop]['菜色']+'<br><b>素食選擇：</b>'+res.中山區[prop]['素食選擇']+'</p>'+'</div>'+
+                    '</div>';
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+                infowindow.open(map, marker);
+            });
+
           }else {
             //alert('Geocode was not successful for the following reason: ' + status);
           }
